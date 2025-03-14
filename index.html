@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>¡Feliz 40 cumpleaños, mamá!</title>
+  <!-- Incluir Anime.js desde CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style>
+    /* Estilos generales y fondo */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: linear-gradient(to right, #0a1929, #061521, #030a12);
+      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      width: 100vw;
+    }
+    /* Perspectiva 3D para la animación */
+    #animation-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      perspective: 1200px;
+    }
+    /* Canvas para las estrellas */
+    #stars-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    /* Canvas para partículas */
+    #particles-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+    /* Estilo para el cohete */
+    .rocket {
+      position: absolute;
+      width: 8px;
+      height: 25px;
+      background: linear-gradient(to top, #fff9e0, #ffd1a8);
+      border-radius: 50% 50% 0 0;
+      box-shadow: 0 0 12px rgba(255, 223, 176, 0.6);
+      z-index: 2;
+    }
+    .rocket::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: -6px;
+      width: 20px;
+      height: 15px;
+      background: radial-gradient(circle, rgba(255, 223, 176, 0.8), transparent 70%);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(255, 223, 176, 0.5);
+      animation: flicker 0.3s infinite alternate;
+    }
+    @keyframes flicker {
+      from { transform: scale(1); opacity: 0.7; }
+      to { transform: scale(1.2); opacity: 0.9; }
+    }
+    /* Contenedor centrado para la tarjeta */
+    #card-container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      perspective: 1500px;
+    }
+    /* Estilo para la tarjeta vertical con detalles de color y efecto 3D mejorado */
+    #card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 15px;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 26px;
+      box-shadow: 
+        0 6px 30px rgba(0,0,0,0.4),
+        0 0 20px rgba(255,255,255,0.1) inset;
+      width: 300px;
+      height: 450px;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      /* Iniciamos con la tarjeta fuera de pantalla y rotada para "mirar" hacia abajo a la derecha */
+      transform: translateY(100vh) rotateZ(-20deg) rotateX(-15deg) rotateY(5deg);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      font-weight: 600;
+      color: #333;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* Fondo rosado en tonos pastel para la tarjeta */
+    #card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(255,182,193,0.2), rgba(255,192,203,0.2), rgba(255,105,180,0.2));
+      z-index: -1;
+    }
+    
+    /* Borde brillante multicolor en tonos rosados */
+    #card::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      right: -3px;
+      bottom: -3px;
+      background: linear-gradient(45deg, #ffb6c1, #ffc0cb, #ff69b4, #ffb6c1);
+      z-index: -2;
+      border-radius: 18px;
+      background-size: 400% 400%;
+      animation: gradientBorder 3s ease infinite;
+    }
+    
+    @keyframes gradientBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Decoración para la tarjeta */
+    .card-decoration {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+      filter: blur(1px);
+      opacity: 0.5;
+    }
+    
+    /* Efecto hover para la tarjeta */
+    #card:hover {
+      box-shadow: 
+        0 15px 40px rgba(0,0,0,0.5),
+        0 0 30px rgba(255,255,255,0.2) inset;
+    }
+    
+    /* Animación de brillo en la tarjeta */
+    @keyframes cardShine {
+      0% {
+        background-position: -100% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="animation-container">
+    <canvas id="stars-canvas"></canvas>
+    <canvas id="particles-canvas"></canvas>
+    <!-- Contenedor centrado para la tarjeta -->
+    <div id="card-container">
+      <div id="card">¡Feliz 40 cumpleaños, mami!</div>
+    </div>
+  </div>
+
+  <script>
+    /*************** ESTRELLAS (Canvas) ***************/
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    const numStars = 450;
+    let shootingStars = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function initStars() {
+      stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.8,
+          alpha: Math.random() * 0.8 + 0.1,
+          cycle: Math.random() * 100
+        });
+      }
+    }
+
+    function createShootingStar() {
+      const star = {
+        x: Math.random() * canvas.width,
+        y: 0,
+        vx: (Math.random() * 8) + 3,
+        vy: (Math.random() * 8) + 3,
+        tail: [],
+        life: 100
+      };
+      shootingStars.push(star);
+    }
+
+    function animateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        star.cycle += 0.008;
+        const pulse = Math.sin(star.cycle) * 0.4 + 0.6;
+        star.alpha = 0.2 + (pulse * 0.6);
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+        ctx.fill();
+        if (Math.random() < 0.0002) star.alpha = 0.9;
+      });
+      if (Math.random() < 0.008 && shootingStars.length < 2) createShootingStar();
+      shootingStars.forEach((star, index) => {
+        star.tail.push({ x: star.x, y: star.y });
+        if (star.tail.length > 15) star.tail.shift();
+        star.x += star.vx;
+        star.y += star.vy;
+        star.life -= 1;
+        star.tail.forEach((pos, i) => {
+          const alpha = (i / star.tail.length) * (star.life / 100) * 0.8;
+          ctx.beginPath();
+          ctx.arc(pos.x, pos.y, 1, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+          ctx.fill();
+        });
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${star.life / 100})`;
+        ctx.fill();
+        if (star.x > canvas.width || star.y > canvas.height || star.life <= 0) {
+          shootingStars.splice(index, 1);
+        }
+      });
+      requestAnimationFrame(animateStars);
+    }
+    initStars();
+    animateStars();
+
+    /*************** SISTEMA DE PARTÍCULAS (Canvas) ***************/
+    const particlesCanvas = document.getElementById('particles-canvas');
+    const pCtx = particlesCanvas.getContext('2d');
+    let particles = [];
+
+    function resizeParticlesCanvas() {
+      particlesCanvas.width = window.innerWidth;
+      particlesCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeParticlesCanvas);
+    resizeParticlesCanvas();
+
+    function updateParticles() {
+      pCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        let p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.ax) p.vx += p.ax;
+        if (p.ay) p.vy += p.ay;
+        p.life -= 16;
+        let progress = p.life / p.maxLife;
+        if (progress < 0) progress = 0;
+        p.alpha = progress;
+        if (p.fadeOut && progress < 0.3) {
+          p.alpha = progress / 0.3;
+        }
+        if (p.glow) {
+          p.size = (1 - progress) * 150;
+          const gradient = pCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+          gradient.addColorStop(0, p.color);
+          gradient.addColorStop(1, 'rgba(255,255,255,0)');
+          pCtx.fillStyle = gradient;
+        } else {
+          pCtx.fillStyle = p.color;
+        }
+        pCtx.save();
+        pCtx.globalAlpha = p.alpha;
+        if (p.shape === 'rect') {
+          if (p.rotation) {
+            pCtx.translate(p.x, p.y);
+            pCtx.rotate(p.rotation);
+            pCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            pCtx.rotate(-p.rotation);
+            pCtx.translate(-p.x, -p.y);
+          } else {
+            pCtx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+          }
+        } else {
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          pCtx.fill();
+        }
+        pCtx.restore();
+        if (p.life <= 0) particles.splice(i, 1);
+      }
+      requestAnimationFrame(updateParticles);
+    }
+    updateParticles();
+
+    /*************** COHETES Y EFECTOS ***************/
+    const container = document.getElementById('animation-container');
+    const totalRockets = 40;
+    let rocketsExploded = 0;
+    function randomBetween(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+    function createRocket(x) {
+      const rocket = document.createElement('div');
+      rocket.classList.add('rocket');
+      rocket.style.left = x + '%';
+      rocket.style.bottom = '-40px';
+      container.appendChild(rocket);
+      return rocket;
+    }
+    const colorPalettes = [
+      ['#ffcdd2', '#f8bbd0', '#e1bee7', '#d1c4e9', '#c5cae9'],
+      ['#fff8e1', '#ffecb3', '#ffe082', '#ffd54f', '#ffca28'],
+      ['#bbdefb', '#90caf9', '#64b5f6', '#42a5f5', '#b3e5fc'],
+      ['#f8bbd0', '#f48fb1', '#f06292', '#ec407a', '#e1bee7'],
+      ['#dcedc8', '#c5e1a5', '#aed581', '#9ccc65', '#d7ccc8']
+    ];
+    function getRandomColorPalette() {
+      return colorPalettes[Math.floor(Math.random() * colorPalettes.length)];
+    }
+    function animateTrail(rocket, duration) {
+      const startTime = Date.now();
+      const interval = 40;
+      const trailInterval = setInterval(() => {
+        const rect = rocket.getBoundingClientRect();
+        for (let j = 0; j < 4; j++) {
+          const offsetX = randomBetween(-4, 4);
+          const offsetY = randomBetween(-2, 2);
+          let x = rect.left + rect.width / 2 + offsetX;
+          let y = rect.top + rect.height + offsetY;
+          let vx = offsetX * 0.05;
+          let vy = randomBetween(5, 15) * 0.02;
+          let life = 600;
+          let size = randomBetween(1.5, 3);
+          let color = (j % 2 === 0 ? 'rgba(255,255,255,0.7)' : 'rgba(255,233,206,0.6)');
+          particles.push({ 
+            x, y, vx, vy, 
+            life, maxLife: life, 
+            size, color, 
+            shape: 'circle',
+            fadeOut: true
+          });
+        }
+        if (Date.now() - startTime > duration) clearInterval(trailInterval);
+      }, interval);
+    }
+    const gravity = 0.07;
+    function createExplosion(x, y) {
+      const flashLife = 300;
+      particles.push({
+        x: x,
+        y: y,
+        vx: 0,
+        vy: 0,
+        life: flashLife,
+        maxLife: flashLife,
+        size: 80,
+        color: 'rgba(255,255,255,0.8)',
+        shape: 'circle',
+        glow: true
+      });
+      const palette = getRandomColorPalette();
+      const numParticlesCore = 150;
+      for (let i = 0; i < numParticlesCore; i++) {
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = randomBetween(3, 7);
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        const life = randomBetween(1200, 1800);
+        const size = randomBetween(1.8, 3.5);
+        const color = palette[Math.floor(Math.random() * palette.length)];
+        particles.push({ 
+          x, 
+          y, 
+          vx, 
+          vy, 
+          ax: 0, 
+          ay: gravity * 0.8, 
+          life, 
+          maxLife: life, 
+          size, 
+          color, 
+          shape: 'circle',
+          fadeOut: true
+        });
+      }
+      const numParticlesOuter = 250;
+      for (let i = 0; i < numParticlesOuter; i++) {
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = randomBetween(1, 4);
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        const life = randomBetween(1500, 2200);
+        const size = randomBetween(1, 2.5);
+        const color = palette[Math.floor(Math.random() * palette.length)];
+        const alphaBase = randomBetween(0.4, 0.9);
+        particles.push({ 
+          x, 
+          y, 
+          vx, 
+          vy, 
+          ax: 0, 
+          ay: gravity * 0.6, 
+          life, 
+          maxLife: life, 
+          size, 
+          color: color.replace(')', `,${alphaBase})`).replace('rgb', 'rgba'), 
+          shape: 'circle',
+          fadeOut: true
+        });
+      }
+      const numSparks = 50;
+      for (let i = 0; i < numSparks; i++) {
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = randomBetween(4, 10);
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        const life = randomBetween(800, 1200);
+        const size = randomBetween(0.8, 1.5);
+        particles.push({ 
+          x, 
+          y, 
+          vx, 
+          vy, 
+          ax: 0, 
+          ay: gravity * 1.2, 
+          life, 
+          maxLife: life, 
+          size, 
+          color: 'rgba(255,255,255,0.9)', 
+          shape: 'circle',
+          fadeOut: true
+        });
+      }
+    }
+    function launchRocket(i, callback) {
+      let xPosition = (i === 0) ? 50 : randomBetween(15, 85);
+      const rocket = createRocket(xPosition);
+      const explosionPercent = randomBetween(35, 75);
+      const explosionY = window.innerHeight * (explosionPercent / 100);
+      const baseDuration = 2800;
+      const duration = (i === 0) ? baseDuration : randomBetween(baseDuration - 600, baseDuration + 800);
+      const horizontalDeviation = randomBetween(-3, 3);
+      const finalLeft = xPosition + horizontalDeviation;
+      animateTrail(rocket, duration);
+      anime({
+        targets: rocket,
+        bottom: explosionY + 'px',
+        left: finalLeft + '%',
+        rotate: horizontalDeviation * 5,
+        easing: 'easeOutQuad',
+        duration: duration,
+        complete: () => {
+          const rect = rocket.getBoundingClientRect();
+          const explosionX = rect.left + rect.width / 2;
+          const explosionYPos = rect.top + rect.height / 2;
+          rocket.remove();
+          createExplosion(explosionX, explosionYPos);
+          rocketsExploded++;
+          if (rocketsExploded === totalRockets) {
+            setTimeout(animateCard, 1000);
+          }
+          if (callback) callback();
+        }
+      });
+    }
+    function launchFirstRocket() {
+      launchRocket(0, () => {
+        setTimeout(launchRemainingRockets, 800);
+      });
+    }
+    function launchRemainingRockets() {
+      for (let i = 1; i < totalRockets; i++) {
+        setTimeout(() => {
+          launchRocket(i);
+        }, (i - 1) * randomBetween(300, 600));
+      }
+    }
+    
+    // Crear elementos decorativos para la tarjeta
+    function createCardDecorations() {
+      const card = document.getElementById('card');
+      const numDecorations = 10;
+      
+      for (let i = 0; i < numDecorations; i++) {
+        const decoration = document.createElement('div');
+        decoration.classList.add('card-decoration');
+        
+        // Posición aleatoria
+        const size = randomBetween(5, 15);
+        const left = randomBetween(5, 95);
+        const top = randomBetween(5, 95);
+        
+        decoration.style.width = size + 'px';
+        decoration.style.height = size + 'px';
+        decoration.style.left = left + '%';
+        decoration.style.top = top + '%';
+        
+        card.appendChild(decoration);
+      }
+    }
+
+    // Animación mejorada de la tarjeta: se desliza desde abajo hasta el centro con una rotación 3D
+    function animateCard() {
+      // Primero creamos los elementos decorativos
+      createCardDecorations();
+      
+      // Animación de entrada con efecto 3D (se invierte la orientación final)
+      anime({
+        targets: '#card',
+        translateY: 0,
+        rotateZ: 0,
+        rotateX: -15,
+        rotateY: 5,
+        scale: [0.9, 1],
+        easing: 'easeOutExpo',
+        duration: 1500,
+        complete: () => {
+          // Añadir un efecto de oscilación suave continuo, con ángulos invertidos
+          anime({
+            targets: '#card',
+            rotateX: [-15, -18, -15],
+            rotateY: [5, 3, 5],
+            translateY: [0, -5, 0],
+            duration: 6000,
+            easing: 'easeInOutSine',
+            loop: true
+          });
+        }
+      });
+    }
+
+    // Iniciar la animación de los fuegos artificiales
+    launchFirstRocket();
+
+    /*************** SALTAR ANIMACIÓN AL PRESIONAR ESPACIO ***************/
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        // Eliminar todos los cohetes actuales
+        document.querySelectorAll('.rocket').forEach(rocket => rocket.remove());
+        // Forzar el contador de explosiones para que ya se haya completado la animación
+        rocketsExploded = totalRockets;
+        // Llamar directamente a la animación de la tarjeta
+        animateCard();
+      }
+    });
+
+    /*************** MENSAJES DINÁMICOS MEJORADOS ***************/
+    const mensajes = [
+      "¡Feliz 40 cumpleaños, mamá!",
+      "¡40 años de amor, risas y aventuras!",
+      "¡Celebramos tu vida y sabiduría!",
+      "¡La mejor mamá cumple 40, y brillas más que nunca!",
+      "¡Gracias por iluminar nuestros días, feliz cumple!",
+      "¡Eres inspiración en cada paso, mamá!",
+      "¡40 años siendo increíble, que sigan los éxitos!",
+      "¡Hoy celebramos tu luz y tu fuerza!",
+      "¡Cada año contigo es un regalo, disfruta tu día!",
+      "¡Feliz cumpleaños a la reina de nuestro hogar!",
+      "¡Gracias por tu amor incondicional, mamá!",
+      "¡40 años y más bella que nunca!",
+      "¡Tu alegría llena nuestro hogar, feliz cumpleaños!",
+      "¡Eres nuestro ejemplo de fortaleza y ternura!",
+      "¡Celebramos hoy a la mamá más maravillosa!",
+      "¡Gracias por enseñarnos siempre con cariño!",
+      "¡40 primaveras llenas de amor y felicidad!",
+      "¡Tú haces nuestro mundo mejor cada día!",
+      "¡Hoy celebramos todo lo que eres, mamá!",
+      "¡Tu amor y paciencia son infinitos!",
+      "¡Feliz cumpleaños a nuestra heroína favorita!",
+      "¡Eres nuestro mayor tesoro, mamá!",
+      "¡40 años creando recuerdos hermosos juntos!",
+      "¡Celebramos tu vida, tu sonrisa y tu corazón!",
+      "¡Gracias por ser nuestro apoyo incondicional!",
+      "¡Tu presencia alegra cada rincón de casa!",
+      "¡40 años y tu belleza solo crece, mamá!",
+      "¡Gracias por tantos años de sacrificios y amor!",
+      "¡Tu cumpleaños es una fiesta para todos nosotros!",
+      "¡Que cada día sea tan feliz como tú nos haces a nosotros!",
+      "¡Por otros 40 años de felicidad y amor!",
+      "¡Tu sonrisa es el mejor regalo para nosotros!",
+      "¡Mamá, cada año que pasa eres más especial!"
+    ];
+
+    // Función para cambiar el mensaje con una animación mejorada
+    function cambiarMensaje() {
+      const indice = Math.floor(Math.random() * mensajes.length);
+      const card = document.getElementById('card');
+      
+      // Animamos la salida del mensaje actual con efecto 3D
+      anime({
+        targets: card,
+        opacity: [1, 0.5],
+        translateZ: [-10, -50],
+        rotateX: [-15, -25],
+        scale: [1, 0.95],
+        duration: 300,
+        easing: 'easeInOutQuad',
+        complete: () => {
+          card.innerHTML = mensajes[indice];
+          // Animación de entrada con efecto 3D
+          anime({
+            targets: card,
+            opacity: [0.5, 1],
+            translateZ: [-50, 0],
+            rotateX: [-25, -15],
+            scale: [0.95, 1],
+            duration: 500,
+            easing: 'easeOutElastic(1, 0.8)'
+          });
+        }
+      });
+    }
+
+    // Efecto de temblor mejorado al hacer clic en la tarjeta
+    document.getElementById('card').addEventListener('click', () => {
+      // Temblor con efecto 3D, se invierten los valores de rotateY
+      anime({
+        targets: '#card',
+        keyframes: [
+          { translateX: -8, rotateY: 8, duration: 80, easing: 'easeInOutSine' },
+          { translateX: 8, rotateY: -8, duration: 80, easing: 'easeInOutSine' },
+          { translateX: -6, rotateY: 6, duration: 80, easing: 'easeInOutSine' },
+          { translateX: 6, rotateY: -6, duration: 80, easing: 'easeInOutSine' },
+          { translateX: -4, rotateY: 4, duration: 80, easing: 'easeInOutSine' },
+          { translateX: 4, rotateY: -4, duration: 80, easing: 'easeInOutSine' },
+          { translateX: 0, rotateY: 5, duration: 100, easing: 'easeInOutSine' }
+        ],
+        complete: () => {
+          cambiarMensaje();
+          const cardRect = document.getElementById('card').getBoundingClientRect();
+          const centerX = cardRect.left + cardRect.width / 2;
+          const centerY = cardRect.top + cardRect.height / 2;
+          
+          // Crear partículas brillantes alrededor de la tarjeta
+          for (let i = 0; i < 30; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 50 + 100;
+            const x = centerX + Math.cos(angle) * distance;
+            const y = centerY + Math.sin(angle) * distance;
+            const size = Math.random() * 3 + 1;
+            const color = Math.random() > 0.5 ? 'rgba(255,255,255,0.8)' : 'rgba(255,223,176,0.8)';
+            const life = Math.random() * 1000 + 500;
+            
+            particles.push({
+              x, y,
+              vx: Math.cos(angle) * (Math.random() * 2 + 1),
+              vy: Math.sin(angle) * (Math.random() * 2 + 1),
+              life, maxLife: life,
+              size, color,
+              shape: 'circle',
+              fadeOut: true
+            });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
