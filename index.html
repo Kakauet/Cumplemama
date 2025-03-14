@@ -7,12 +7,12 @@
   <!-- Incluir Anime.js desde CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <style>
-    /* Estilos generales y fondo */
+    /* Estilos generales y fondo (cielo oscuro) */
     html, body {
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      background: linear-gradient(to right, #0a1929, #061521, #030a12);
       font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       height: 100vh;
       width: 100vw;
@@ -69,7 +69,7 @@
       from { transform: scale(1); opacity: 0.7; }
       to { transform: scale(1.2); opacity: 0.9; }
     }
-    /* Contenedor centrado para la carta */
+    /* Contenedor centrado para la tarjeta */
     #card-container {
       position: absolute;
       left: 50%;
@@ -82,9 +82,10 @@
       width: 100%;
       perspective: 1500px;
     }
-    /* Estilo para la carta: aún más pequeña pero con texto del mismo tamaño */
+    /* Estilo para la tarjeta */
     #card {
-      background: rgba(255, 255, 255, 0.95);
+      /* Fondo en tonos azulados oscuros, ligeramente más claro que el cielo */
+      background: rgba(30, 40, 60, 0.95);
       padding: 30px 15px;
       border-radius: 15px;
       text-align: center;
@@ -102,7 +103,8 @@
       position: relative;
       overflow: hidden;
       font-weight: 600;
-      color: #333;
+      /* Texto en blanco */
+      color: #fff;
       letter-spacing: 0.5px;
       text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
       transition: box-shadow 0.3s ease;
@@ -111,7 +113,7 @@
       justify-content: center;
     }
          
-    /* Fondo en tonos naturales para la carta */
+    /* Fondo de la tarjeta con un sutil degradado azul */
     #card::before {
       content: '';
       position: absolute;
@@ -119,11 +121,11 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(45deg, rgba(200,230,201,0.2), rgba(165,214,167,0.2), rgba(129,199,132,0.2));
+      background: linear-gradient(45deg, rgba(40,60,80,0.2), rgba(50,70,90,0.2), rgba(40,60,80,0.2));
       z-index: -1;
     }
          
-    /* Borde brillante en tonos naturales */
+    /* Borde brillante en tonos azulados */
     #card::after {
       content: '';
       position: absolute;
@@ -131,7 +133,7 @@
       left: -3px;
       right: -3px;
       bottom: -3px;
-      background: linear-gradient(45deg, #a8e063, #7cb342, #689f38, #a8e063);
+      background: linear-gradient(45deg, #3a4f63, #4e6577, #3a4f63);
       z-index: -2;
       border-radius: 18px;
       background-size: 400% 400%;
@@ -144,7 +146,7 @@
       100% { background-position: 0% 50%; }
     }
          
-    /* Decoración para la carta */
+    /* Decoración para la tarjeta */
     .card-decoration {
       position: absolute;
       border-radius: 50%;
@@ -153,14 +155,14 @@
       opacity: 0.5;
     }
          
-    /* Efecto hover para la carta */
+    /* Efecto hover para la tarjeta */
     #card:hover {
       box-shadow:
          0 15px 40px rgba(0,0,0,0.5),
          0 0 30px rgba(255,255,255,0.2) inset;
     }
          
-    /* Animación de brillo en la carta */
+    /* Animación de brillo en la tarjeta */
     @keyframes cardShine {
       0% {
         background-position: -100% 0;
@@ -175,9 +177,9 @@
   <div id="animation-container">
     <canvas id="stars-canvas"></canvas>
     <canvas id="particles-canvas"></canvas>
-    <!-- Contenedor centrado para la carta -->
+    <!-- Contenedor centrado para la tarjeta -->
     <div id="card-container">
-      <div id="card">¡Feliz 40 cumpleaños, hijo único!</div>
+      <div id="card">¡Felicidades, mamá!</div>
     </div>
   </div>
   
@@ -504,7 +506,7 @@
       }
     }
          
-    // Crear elementos decorativos para la carta
+    // Crear elementos decorativos para la tarjeta
     function createCardDecorations() {
       const card = document.getElementById('card');
       const numDecorations = 10;
@@ -527,7 +529,7 @@
       }
     }
          
-    // Animación mejorada de la carta: se desliza desde abajo hasta el centro con una rotación 3D que mira hacia arriba
+    // Animación mejorada de la tarjeta: se desliza desde abajo hasta el centro con una rotación 3D que mira hacia arriba
     function animateCard() {
       // Primero creamos los elementos decorativos
       createCardDecorations();
@@ -567,7 +569,7 @@
         document.querySelectorAll('.rocket').forEach(rocket => rocket.remove());
         // Forzar el contador de explosiones para que ya se haya completado la animación
         rocketsExploded = totalRockets;
-        // Llamar directamente a la animación de la carta
+        // Llamar directamente a la animación de la tarjeta
         animateCard();
       }
     });
@@ -578,19 +580,19 @@ const mensajes = [
   "¡40 años siendo el corazón de la familia, felicidades!",
   "Tu cumpleaños es especial porque tú lo eres aún más. ¡Disfrútalo!",
   "Celebro contigo estos maravillosos 40 años de vida y amor.",
-  "Gracias por ser siempre luz en mis días. ¡Feliz cumpleaños!",
+  "Gracias por ser siempre luz en nuestros días. ¡Feliz cumpleaños!",
   "¡Brillas más con cada año! Felices 40.",
-  "Gracias por tantos momentos felices. Hoy te celebro con cariño.",
-  "Feliz cumpleaños a quien hace mi vida más hermosa cada día.",
+  "Gracias por tantos momentos felices. Hoy te celebramos con cariño.",
+  "Feliz cumpleaños a quien hace nuestra vida más hermosa cada día.",
   "40 años llenos de inspiración y fuerza, gracias por tanto.",
-  "Eres mi mejor ejemplo de fortaleza y amor. ¡Feliz cumple!",
-  "Celebro 40 años de alegría contigo. ¡Sigue brillando!",
-  "Gracias por regalarme tanto cariño y sabiduría. ¡Feliz día!",
+  "Eres nuestro mejor ejemplo de fortaleza y amor. ¡Feliz cumple!",
+  "Celebramos 40 años de alegría contigo. ¡Sigue brillando!",
+  "Gracias por regalarnos tanto cariño y sabiduría. ¡Feliz día!",
   "Eres increíble hoy y siempre. Feliz cumpleaños número 40.",
   "Por otros 40 años llenos de éxito, alegría y amor.",
   "Tu cumpleaños siempre será un día especial porque tú lo haces especial.",
   "Celebro tu vida, tu fuerza y el maravilloso corazón que tienes.",
-  "Gracias por estar siempre ahí, apoyándome y cuidándome. ¡Feliz cumple!"
+  "Gracias por estar siempre ahí, apoyándonos y cuidándonos. ¡Feliz cumple!"
 ];
          
     // Función para cambiar el mensaje con una animación mejorada
@@ -623,7 +625,7 @@ const mensajes = [
       });
     }
          
-    // Efecto de temblor mejorado al hacer clic en la carta
+    // Efecto de temblor mejorado al hacer clic en la tarjeta
     document.getElementById('card').addEventListener('click', () => {
       // Temblor con efecto 3D, se invierten los valores de rotateY
       anime({
@@ -643,7 +645,7 @@ const mensajes = [
           const centerX = cardRect.left + cardRect.width / 2;
           const centerY = cardRect.top + cardRect.height / 2;
                      
-          // Crear partículas brillantes alrededor de la carta
+          // Crear partículas brillantes alrededor de la tarjeta
           for (let i = 0; i < 30; i++) {
             const angle = Math.random() * Math.PI * 2;
             const distance = Math.random() * 50 + 100;
@@ -668,4 +670,4 @@ const mensajes = [
     });
   </script>
 </body>
-</html>
+</html>55y
