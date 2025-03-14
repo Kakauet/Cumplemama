@@ -12,7 +12,7 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background: linear-gradient(to right, #0a1929, #061521, #030a12);
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
       font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       height: 100vh;
       width: 100vw;
@@ -96,8 +96,8 @@
       height: 400px;
       transform-style: preserve-3d;
       backface-visibility: hidden;
-      /* Inicialmente fuera de pantalla y con rotación para mirar hacia abajo a la derecha */
-      transform: translateY(100vh) rotateZ(-20deg) rotateX(-15deg) rotateY(5deg);
+      /* Inicialmente fuera de pantalla y con rotación para mirar hacia arriba */
+      transform: translateY(100vh) rotateZ(-20deg) rotateX(15deg) rotateY(5deg);
       cursor: pointer;
       position: relative;
       overflow: hidden;
@@ -111,7 +111,7 @@
       justify-content: center;
     }
          
-    /* Fondo rosado en tonos pastel para la carta */
+    /* Fondo en tonos naturales para la carta */
     #card::before {
       content: '';
       position: absolute;
@@ -119,11 +119,11 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(45deg, rgba(255,182,193,0.2), rgba(255,192,203,0.2), rgba(255,105,180,0.2));
+      background: linear-gradient(45deg, rgba(200,230,201,0.2), rgba(165,214,167,0.2), rgba(129,199,132,0.2));
       z-index: -1;
     }
          
-    /* Borde brillante multicolor en tonos rosados */
+    /* Borde brillante en tonos naturales */
     #card::after {
       content: '';
       position: absolute;
@@ -131,7 +131,7 @@
       left: -3px;
       right: -3px;
       bottom: -3px;
-      background: linear-gradient(45deg, #ffb6c1, #ffc0cb, #ff69b4, #ffb6c1);
+      background: linear-gradient(45deg, #a8e063, #7cb342, #689f38, #a8e063);
       z-index: -2;
       border-radius: 18px;
       background-size: 400% 400%;
@@ -527,7 +527,7 @@
       }
     }
          
-    // Animación mejorada de la carta: se desliza desde abajo hasta el centro con una rotación 3D
+    // Animación mejorada de la carta: se desliza desde abajo hasta el centro con una rotación 3D que mira hacia arriba
     function animateCard() {
       // Primero creamos los elementos decorativos
       createCardDecorations();
@@ -537,7 +537,7 @@
         targets: '#card',
         translateY: 0,
         rotateZ: 0,
-        rotateX: -15,
+        rotateX: 15,
         rotateY: 5,
         scale: [0.9, 1],
         easing: 'easeOutExpo',
@@ -546,7 +546,7 @@
           // Añadir un efecto de oscilación suave continuo, con ángulos invertidos
           anime({
             targets: '#card',
-            rotateX: [-15, -18, -15],
+            rotateX: [15, 18, 15],
             rotateY: [5, 3, 5],
             translateY: [0, -5, 0],
             duration: 6000,
@@ -603,7 +603,7 @@ const mensajes = [
         targets: card,
         opacity: [1, 0.5],
         translateZ: [-10, -50],
-        rotateX: [-15, -25],
+        rotateX: [15, 25],
         scale: [1, 0.95],
         duration: 300,
         easing: 'easeInOutQuad',
@@ -614,7 +614,7 @@ const mensajes = [
             targets: card,
             opacity: [0.5, 1],
             translateZ: [-50, 0],
-            rotateX: [-25, -15],
+            rotateX: [25, 15],
             scale: [0.95, 1],
             duration: 500,
             easing: 'easeOutElastic(1, 0.8)'
