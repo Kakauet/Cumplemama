@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>¡Feliz 40 cumpleaños, mamá!</title>
+  <title>¡Feliz 40 cumpleaños!</title>
   <!-- Incluir Anime.js desde CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
   <style>
@@ -69,7 +69,7 @@
       from { transform: scale(1); opacity: 0.7; }
       to { transform: scale(1.2); opacity: 0.9; }
     }
-    /* Contenedor centrado para la tarjeta */
+    /* Contenedor centrado para la carta */
     #card-container {
       position: absolute;
       left: 50%;
@@ -82,21 +82,21 @@
       width: 100%;
       perspective: 1500px;
     }
-    /* Estilo para la tarjeta vertical con detalles de color y efecto 3D mejorado */
+    /* Estilo para la carta: aún más pequeña pero con texto del mismo tamaño */
     #card {
       background: rgba(255, 255, 255, 0.95);
       padding: 30px 15px;
       border-radius: 15px;
       text-align: center;
       font-size: 26px;
-      box-shadow: 
-        0 6px 30px rgba(0,0,0,0.4),
-        0 0 20px rgba(255,255,255,0.1) inset;
-      width: 300px;
-      height: 450px;
+      box-shadow:
+         0 6px 30px rgba(0,0,0,0.4),
+         0 0 20px rgba(255,255,255,0.1) inset;
+      width: 250px;
+      height: 400px;
       transform-style: preserve-3d;
       backface-visibility: hidden;
-      /* Iniciamos con la tarjeta fuera de pantalla y rotada para "mirar" hacia abajo a la derecha */
+      /* Inicialmente fuera de pantalla y con rotación para mirar hacia abajo a la derecha */
       transform: translateY(100vh) rotateZ(-20deg) rotateX(-15deg) rotateY(5deg);
       cursor: pointer;
       position: relative;
@@ -110,8 +110,8 @@
       align-items: center;
       justify-content: center;
     }
-    
-    /* Fondo rosado en tonos pastel para la tarjeta */
+         
+    /* Fondo rosado en tonos pastel para la carta */
     #card::before {
       content: '';
       position: absolute;
@@ -122,7 +122,7 @@
       background: linear-gradient(45deg, rgba(255,182,193,0.2), rgba(255,192,203,0.2), rgba(255,105,180,0.2));
       z-index: -1;
     }
-    
+         
     /* Borde brillante multicolor en tonos rosados */
     #card::after {
       content: '';
@@ -137,14 +137,14 @@
       background-size: 400% 400%;
       animation: gradientBorder 3s ease infinite;
     }
-    
+         
     @keyframes gradientBorder {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    
-    /* Decoración para la tarjeta */
+         
+    /* Decoración para la carta */
     .card-decoration {
       position: absolute;
       border-radius: 50%;
@@ -152,15 +152,15 @@
       filter: blur(1px);
       opacity: 0.5;
     }
-    
-    /* Efecto hover para la tarjeta */
+         
+    /* Efecto hover para la carta */
     #card:hover {
-      box-shadow: 
-        0 15px 40px rgba(0,0,0,0.5),
-        0 0 30px rgba(255,255,255,0.2) inset;
+      box-shadow:
+         0 15px 40px rgba(0,0,0,0.5),
+         0 0 30px rgba(255,255,255,0.2) inset;
     }
-    
-    /* Animación de brillo en la tarjeta */
+         
+    /* Animación de brillo en la carta */
     @keyframes cardShine {
       0% {
         background-position: -100% 0;
@@ -175,12 +175,12 @@
   <div id="animation-container">
     <canvas id="stars-canvas"></canvas>
     <canvas id="particles-canvas"></canvas>
-    <!-- Contenedor centrado para la tarjeta -->
+    <!-- Contenedor centrado para la carta -->
     <div id="card-container">
-      <div id="card">¡Feliz 40 cumpleaños, mami!</div>
+      <div id="card">¡Feliz 40 cumpleaños, hijo único!</div>
     </div>
   </div>
-
+  
   <script>
     /*************** ESTRELLAS (Canvas) ***************/
     const canvas = document.getElementById('stars-canvas');
@@ -188,14 +188,14 @@
     let stars = [];
     const numStars = 450;
     let shootingStars = [];
-
+    
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
-
+    
     function initStars() {
       stars = [];
       for (let i = 0; i < numStars; i++) {
@@ -208,7 +208,7 @@
         });
       }
     }
-
+    
     function createShootingStar() {
       const star = {
         x: Math.random() * canvas.width,
@@ -220,7 +220,7 @@
       };
       shootingStars.push(star);
     }
-
+    
     function animateStars() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       stars.forEach(star => {
@@ -259,19 +259,19 @@
     }
     initStars();
     animateStars();
-
+    
     /*************** SISTEMA DE PARTÍCULAS (Canvas) ***************/
     const particlesCanvas = document.getElementById('particles-canvas');
     const pCtx = particlesCanvas.getContext('2d');
     let particles = [];
-
+    
     function resizeParticlesCanvas() {
       particlesCanvas.width = window.innerWidth;
       particlesCanvas.height = window.innerHeight;
     }
     window.addEventListener('resize', resizeParticlesCanvas);
     resizeParticlesCanvas();
-
+    
     function updateParticles() {
       pCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
       for (let i = particles.length - 1; i >= 0; i--) {
@@ -319,7 +319,7 @@
       requestAnimationFrame(updateParticles);
     }
     updateParticles();
-
+    
     /*************** COHETES Y EFECTOS ***************/
     const container = document.getElementById('animation-container');
     const totalRockets = 40;
@@ -360,11 +360,11 @@
           let life = 600;
           let size = randomBetween(1.5, 3);
           let color = (j % 2 === 0 ? 'rgba(255,255,255,0.7)' : 'rgba(255,233,206,0.6)');
-          particles.push({ 
-            x, y, vx, vy, 
-            life, maxLife: life, 
-            size, color, 
-            shape: 'circle',
+          particles.push({
+             x, y, vx, vy,
+             life, maxLife: life,
+             size, color,
+             shape: 'circle',
             fadeOut: true
           });
         }
@@ -396,18 +396,18 @@
         const life = randomBetween(1200, 1800);
         const size = randomBetween(1.8, 3.5);
         const color = palette[Math.floor(Math.random() * palette.length)];
-        particles.push({ 
-          x, 
-          y, 
-          vx, 
-          vy, 
-          ax: 0, 
-          ay: gravity * 0.8, 
-          life, 
-          maxLife: life, 
-          size, 
-          color, 
-          shape: 'circle',
+        particles.push({
+           x,
+           y,
+           vx,
+           vy,
+           ax: 0,
+           ay: gravity * 0.8,
+           life,
+           maxLife: life,
+           size,
+           color,
+           shape: 'circle',
           fadeOut: true
         });
       }
@@ -421,18 +421,18 @@
         const size = randomBetween(1, 2.5);
         const color = palette[Math.floor(Math.random() * palette.length)];
         const alphaBase = randomBetween(0.4, 0.9);
-        particles.push({ 
-          x, 
-          y, 
-          vx, 
-          vy, 
-          ax: 0, 
-          ay: gravity * 0.6, 
-          life, 
-          maxLife: life, 
-          size, 
-          color: color.replace(')', `,${alphaBase})`).replace('rgb', 'rgba'), 
-          shape: 'circle',
+        particles.push({
+           x,
+           y,
+           vx,
+           vy,
+           ax: 0,
+           ay: gravity * 0.6,
+           life,
+           maxLife: life,
+           size,
+           color: color.replace(')', `,${alphaBase})`).replace('rgb', 'rgba'),
+           shape: 'circle',
           fadeOut: true
         });
       }
@@ -444,18 +444,18 @@
         const vy = Math.sin(angle) * speed;
         const life = randomBetween(800, 1200);
         const size = randomBetween(0.8, 1.5);
-        particles.push({ 
-          x, 
-          y, 
-          vx, 
-          vy, 
-          ax: 0, 
-          ay: gravity * 1.2, 
-          life, 
-          maxLife: life, 
-          size, 
-          color: 'rgba(255,255,255,0.9)', 
-          shape: 'circle',
+        particles.push({
+           x,
+           y,
+           vx,
+           vy,
+           ax: 0,
+           ay: gravity * 1.2,
+           life,
+           maxLife: life,
+           size,
+           color: 'rgba(255,255,255,0.9)',
+           shape: 'circle',
           fadeOut: true
         });
       }
@@ -503,35 +503,35 @@
         }, (i - 1) * randomBetween(300, 600));
       }
     }
-    
-    // Crear elementos decorativos para la tarjeta
+         
+    // Crear elementos decorativos para la carta
     function createCardDecorations() {
       const card = document.getElementById('card');
       const numDecorations = 10;
-      
+         
       for (let i = 0; i < numDecorations; i++) {
         const decoration = document.createElement('div');
         decoration.classList.add('card-decoration');
-        
+             
         // Posición aleatoria
         const size = randomBetween(5, 15);
         const left = randomBetween(5, 95);
         const top = randomBetween(5, 95);
-        
+             
         decoration.style.width = size + 'px';
         decoration.style.height = size + 'px';
         decoration.style.left = left + '%';
         decoration.style.top = top + '%';
-        
+             
         card.appendChild(decoration);
       }
     }
-
-    // Animación mejorada de la tarjeta: se desliza desde abajo hasta el centro con una rotación 3D
+         
+    // Animación mejorada de la carta: se desliza desde abajo hasta el centro con una rotación 3D
     function animateCard() {
       // Primero creamos los elementos decorativos
       createCardDecorations();
-      
+             
       // Animación de entrada con efecto 3D (se invierte la orientación final)
       anime({
         targets: '#card',
@@ -556,10 +556,10 @@
         }
       });
     }
-
+         
     // Iniciar la animación de los fuegos artificiales
     launchFirstRocket();
-
+         
     /*************** SALTAR ANIMACIÓN AL PRESIONAR ESPACIO ***************/
     document.addEventListener('keydown', (e) => {
       if (e.code === 'Space') {
@@ -567,53 +567,53 @@
         document.querySelectorAll('.rocket').forEach(rocket => rocket.remove());
         // Forzar el contador de explosiones para que ya se haya completado la animación
         rocketsExploded = totalRockets;
-        // Llamar directamente a la animación de la tarjeta
+        // Llamar directamente a la animación de la carta
         animateCard();
       }
     });
-
+         
     /*************** MENSAJES DINÁMICOS MEJORADOS ***************/
     const mensajes = [
-      "¡Feliz 40 cumpleaños, mamá!",
-      "¡40 años de amor, risas y aventuras!",
-      "¡Celebramos tu vida y sabiduría!",
-      "¡La mejor mamá cumple 40, y brillas más que nunca!",
-      "¡Gracias por iluminar nuestros días, feliz cumple!",
-      "¡Eres inspiración en cada paso, mamá!",
-      "¡40 años siendo increíble, que sigan los éxitos!",
-      "¡Hoy celebramos tu luz y tu fuerza!",
+      "¡Feliz 40 cumpleaños, hijo único!",
+      "¡40 años de ser el centro de la familia!",
+      "¡Celebro tu vida y esa singularidad que te hace único!",
+      "¡El único cumple 40 y brillas más que nunca!",
+      "¡Gracias por iluminar mis días, feliz cumple!",
+      "¡Eres inspiración en cada paso, disfruta tu día!",
+      "¡40 años siendo increíble, que siga el éxito!",
+      "¡Hoy celebro tu luz y tu fuerza!",
       "¡Cada año contigo es un regalo, disfruta tu día!",
-      "¡Feliz cumpleaños a la reina de nuestro hogar!",
-      "¡Gracias por tu amor incondicional, mamá!",
-      "¡40 años y más bella que nunca!",
-      "¡Tu alegría llena nuestro hogar, feliz cumpleaños!",
-      "¡Eres nuestro ejemplo de fortaleza y ternura!",
-      "¡Celebramos hoy a la mamá más maravillosa!",
-      "¡Gracias por enseñarnos siempre con cariño!",
+      "¡Feliz cumpleaños al único en la familia!",
+      "¡Gracias por tu amor incondicional, disfruta tu día!",
+      "¡40 años y más brillante que nunca!",
+      "¡Tu alegría llena mi hogar, feliz cumpleaños!",
+      "¡Eres mi ejemplo de fortaleza y ternura!",
+      "¡Celebro hoy a la persona más maravillosa!",
+      "¡Gracias por enseñarme siempre con cariño!",
       "¡40 primaveras llenas de amor y felicidad!",
-      "¡Tú haces nuestro mundo mejor cada día!",
-      "¡Hoy celebramos todo lo que eres, mamá!",
+      "¡Tú haces mi mundo mejor cada día!",
+      "¡Hoy celebro todo lo que eres, disfruta tu día!",
       "¡Tu amor y paciencia son infinitos!",
-      "¡Feliz cumpleaños a nuestra heroína favorita!",
-      "¡Eres nuestro mayor tesoro, mamá!",
-      "¡40 años creando recuerdos hermosos juntos!",
-      "¡Celebramos tu vida, tu sonrisa y tu corazón!",
-      "¡Gracias por ser nuestro apoyo incondicional!",
-      "¡Tu presencia alegra cada rincón de casa!",
-      "¡40 años y tu belleza solo crece, mamá!",
+      "¡Feliz cumpleaños a mi héroe!",
+      "¡Eres mi mayor tesoro!",
+      "¡40 años creando recuerdos hermosos!",
+      "¡Celebro tu vida, tu sonrisa y tu corazón!",
+      "¡Gracias por ser mi apoyo incondicional!",
+      "¡Tu presencia alegra cada rincón del hogar!",
+      "¡40 años y tu brillo solo crece!",
       "¡Gracias por tantos años de sacrificios y amor!",
-      "¡Tu cumpleaños es una fiesta para todos nosotros!",
-      "¡Que cada día sea tan feliz como tú nos haces a nosotros!",
+      "¡Tu cumpleaños es una fiesta para mí!",
+      "¡Que cada día sea tan feliz como tú me haces a mí!",
       "¡Por otros 40 años de felicidad y amor!",
-      "¡Tu sonrisa es el mejor regalo para nosotros!",
-      "¡Mamá, cada año que pasa eres más especial!"
+      "¡Tu sonrisa es el mejor regalo para mí!",
+      "¡Cada año que pasa te hace aún más especial!"
     ];
-
+         
     // Función para cambiar el mensaje con una animación mejorada
     function cambiarMensaje() {
       const indice = Math.floor(Math.random() * mensajes.length);
       const card = document.getElementById('card');
-      
+             
       // Animamos la salida del mensaje actual con efecto 3D
       anime({
         targets: card,
@@ -638,8 +638,8 @@
         }
       });
     }
-
-    // Efecto de temblor mejorado al hacer clic en la tarjeta
+         
+    // Efecto de temblor mejorado al hacer clic en la carta
     document.getElementById('card').addEventListener('click', () => {
       // Temblor con efecto 3D, se invierten los valores de rotateY
       anime({
@@ -658,8 +658,8 @@
           const cardRect = document.getElementById('card').getBoundingClientRect();
           const centerX = cardRect.left + cardRect.width / 2;
           const centerY = cardRect.top + cardRect.height / 2;
-          
-          // Crear partículas brillantes alrededor de la tarjeta
+                     
+          // Crear partículas brillantes alrededor de la carta
           for (let i = 0; i < 30; i++) {
             const angle = Math.random() * Math.PI * 2;
             const distance = Math.random() * 50 + 100;
@@ -668,7 +668,7 @@
             const size = Math.random() * 3 + 1;
             const color = Math.random() > 0.5 ? 'rgba(255,255,255,0.8)' : 'rgba(255,223,176,0.8)';
             const life = Math.random() * 1000 + 500;
-            
+                         
             particles.push({
               x, y,
               vx: Math.cos(angle) * (Math.random() * 2 + 1),
